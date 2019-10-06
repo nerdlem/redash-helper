@@ -1,0 +1,21 @@
+# These settings control the production instance of redash.
+
+REDASH_HOST=https://redash.example.invalid
+REDASH_DATABASE_URL=postgresql://redash:password@database-host/redash
+REDASH_MAIL_DEFAULT_SENDER=you@example.invalid
+REDASH_MAIL_USE_TLS=True
+REDASH_MAIL_SERVER=mta.example.invalid
+REDASH_HOME=/home/redash/code/redash
+
+# These settings are for the celery companion
+
+CELERY_BIN=celery
+CELERY_APP=redash.worker
+CELERYD_PID_FILE=/run/redash/celery-production.pid
+CELERYD_NODES=worker
+CELERYD_OPTS='--beat -Qscheduled_queries,queries,celery -c4'
+
+# These settings are used by the virtualenv shell integration
+
+BASH_ENV=/home/redash/bash-production-virtualenv
+PYTHONPATH=/home/redash/code/redash

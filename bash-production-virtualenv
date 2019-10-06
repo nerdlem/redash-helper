@@ -1,0 +1,2 @@
+PATH=$PATH:~/bin:~/code/redash/bin
+source ~/venv/production/bin/activate

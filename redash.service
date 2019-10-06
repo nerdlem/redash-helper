@@ -1,0 +1,15 @@
+[Unit]
+Description=Redash Service
+After=network.target
+
+[Service]
+Type=oneshot
+User=redash
+Group=redash
+WorkingDirectory=/
+ExecStart=/bin/true
+ExecReload=/bin/true
+RemainAfterExit=on
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,32 @@
+[Unit]
+Description=Celery Service for Redash (%I)
+ConditionPathExists=/etc/default/redash-%i
+After=network.target
+Before=redash.service
+
+[Service]
+Type=forking
+User=redash
+Group=redash
+PIDFile=/run/redash/celery-%i.pid
+ProtectHome=read-only
+WorkingDirectory=/home/redash
+RuntimeDirectory=redash
+LogsDirectory=redash
+StandardOutput=syslog
+SyslogIdentifier=celery-%i
+SyslogFacility=local5
+SyslogLevel=info
+EnvironmentFile=/etc/default/redash-%i
+ExecStart=/bin/bash --login -c '${CELERY_BIN} multi start ${CELERYD_NODES} \
+  -A ${CELERY_APP} --pidfile=${CELERYD_PID_FILE} \
+  --logfile=/var/log/redash/celery-%i.log ${CELERYD_OPTS}'
+ExecStop=/bin/bash --login -c '${CELERY_BIN} multi stopwait ${CELERYD_NODES} \
+  --pidfile=${CELERYD_PID_FILE}'
+ExecReload=/bin/bash --login -c '${CELERY_BIN} multi restart ${CELERYD_NODES} \
+  -A ${CELERY_APP} --pidfile=${CELERYD_PID_FILE} \
+  --logfile=/var/log/redash/celery-%i.log ${CELERYD_OPTS}'
+
+[Install]
+WantedBy=multi-user.target
+

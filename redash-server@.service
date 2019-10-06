@@ -1,0 +1,24 @@
+[Unit]
+Description=Redash Server (%I)
+ConditionPathExists=/etc/default/redash-%i
+After=network.target
+Before=redash.service
+
+[Service]
+Type=exec
+User=redash
+Group=redash
+ProtectHome=read-only
+WorkingDirectory=/home/redash
+RuntimeDirectory=redash
+LogsDirectory=redash
+StandardOutput=syslog
+SyslogIdentifier=redash-%i
+SyslogFacility=local5
+SyslogLevel=info
+EnvironmentFile=/etc/default/redash-%i
+ExecStart=/bin/bash --login -c '${REDASH_HOME}/manage.py run'
+
+[Install]
+WantedBy=multi-user.target
+
