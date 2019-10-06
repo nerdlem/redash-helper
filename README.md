@@ -1,4 +1,4 @@
-This repo contains some companion files to my [post on using Redash](https://postgres.help/post/notes-on-running-standalone-redash/) as standalone processes, without containers. Feel free to reuse and adapt.
+This repo contains some companion files to my [post on using Redash](https://lem.click/post/notes-on-running-standalone-redash/) as standalone processes, without containers. Feel free to reuse and adapt.
 
 # TL;DR
 
