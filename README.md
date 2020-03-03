@@ -10,14 +10,16 @@ If you followed my post, the `*.service` files would be simple additions to the 
 
 ```bash
 systemctl enable  redash
-systemctl enable  redash-celery@production
+systemctl enable  redash-scheduler@production
+systemctl enable  redash-worker@production
 systemctl enable  redash-server@production
 ```
 
 You will need to configure the redash database – where Redash actually stores its own data – in order to launch the services.
 
 ```bash
-systemctl start   redash-celery@production
+systemctl start   redash-scheduler@production
+systemctl start   redash-worker@production
 systemctl start   redash-server@production
 systemctl restart nginx
 ```

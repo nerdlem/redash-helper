@@ -1,0 +1,25 @@
+[Unit]
+Description=Worker Service for Redash (%I)
+ConditionPathExists=/etc/default/redash-%i
+After=network.target
+Before=redash.service
+
+[Service]
+Type=exec
+User=redash
+Group=redash
+PIDFile=/run/redash/worker-%i.pid
+ProtectHome=read-only
+WorkingDirectory=/home/redash
+RuntimeDirectory=redash
+LogsDirectory=redash
+StandardOutput=syslog
+SyslogIdentifier=worker-%i
+SyslogFacility=local5
+SyslogLevel=info
+EnvironmentFile=/etc/default/redash-%i
+ExecStart=/bin/bash --login -c '${REDASH_HOME}/manage.py rq worker'
+
+[Install]
+WantedBy=multi-user.target
+

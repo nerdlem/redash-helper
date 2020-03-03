@@ -1,0 +1,25 @@
+[Unit]
+Description=Scheduler Service for Redash (%I)
+ConditionPathExists=/etc/default/redash-%i
+After=network.target
+Before=redash.service
+
+[Service]
+Type=exec
+User=redash
+Group=redash
+PIDFile=/run/redash/scheduler-%i.pid
+ProtectHome=read-only
+WorkingDirectory=/home/redash
+RuntimeDirectory=redash
+LogsDirectory=redash
+StandardOutput=syslog
+SyslogIdentifier=scheduler-%i
+SyslogFacility=local5
+SyslogLevel=info
+EnvironmentFile=/etc/default/redash-%i
+ExecStart=/bin/bash --login -c '${REDASH_HOME}/manage.py rq scheduler'
+
+[Install]
+WantedBy=multi-user.target
+
